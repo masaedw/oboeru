@@ -10,6 +10,8 @@
   (GET "/random-test" [] (random-test))
   )
 
+(load-words "data/words.clj")
+
 ;; interactive
 (future (run-jetty (var main-routes) {:port 8080}))
 
