@@ -5,6 +5,10 @@
   (:require [compojure.route :as route]))
 
 (defroutes main-routes
-  (GET "/" [] "<h1>Hello World</h1>"))
+  (GET "/" [] (make-test)))
 
-(run-jetty main-routes {:port 8080})
+;; interactive
+(future (run-jetty (var main-routes) {:port 8080}))
+
+;; static
+;; (run-jetty main-routes {:port 8080})
