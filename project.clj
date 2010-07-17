@@ -5,7 +5,7 @@
                  [compojure "0.4.1"]
                  [ring/ring "0.2.5"]
                  ]
-  :dev-dependencies [[leiningen/lein-swank "1.2.0-SNAPSHOT"]
+  :dev-dependencies [[swank-clojure "1.2.1"]
                      [jline/jline "0.9.94"]
                      ]
   )
