@@ -6,7 +6,8 @@
 
 (defroutes main-routes
   (GET "/" [] (index))
-  (GET "/new-test" [] (new-test))
+  (GET "/new-test-series" [] (new-test-series))
+  (GET "/new-test-random" [] (new-test-random))
   (GET "/random-test" [] (random-test))
   )
 

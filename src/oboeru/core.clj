@@ -11,7 +11,6 @@
 (defhtml place-words
   [words]
   [:table {:class "exam newpage"}
-   [:tr [:td] [:td]]
    (for [[l r] (partition-all 2 words)]
      [:tr
       [:td l]
@@ -27,7 +26,7 @@
 
 .exam {
   width: 100%;
-  height: 25cm; /* B5 257*182mm */
+  height: 24cm; /* B5 257*182mm */
 }
 
 .exam td {
@@ -53,9 +52,18 @@
          body])
   )
 
-(defn new-test
+(defn new-test-series
   []
-    (page "new-test"
+    (page "new-test (in series)"
+          (let [test-words (flatten (reverse (take pages-par-test *words*)))]
+            (for [page-words (partition-all words-par-page test-words)]
+              (place-words page-words)
+              ))))
+
+
+(defn new-test-random
+  []
+    (page "new-test (in random)"
           (let [test-words (shuffle (flatten (take pages-par-test *words*)))]
             (for [page-words (partition-all words-par-page test-words)]
               (place-words page-words)
@@ -73,5 +81,6 @@
   []
   (page "index"
         (unordered-list
-         (list (link-to "/new-test" "new-test")
+         (list (link-to "/new-test-series" "new-test (in series)")
+               (link-to "/new-test-random" "new-test (in random)")
                (link-to "/random-test" "random-test")))))
