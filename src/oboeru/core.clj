@@ -10,13 +10,17 @@
 
 (defhtml place-words
   [words]
-  [:table {:class "exam newpage"}
+  [:table {:class "exam"}
    (for [[l r] (partition-all 2 words)]
      [:tr
       [:td l]
       [:td r]
       ])
    ])
+
+(defhtml newpage
+  []
+  [:div {:class "newpage"}])
 
 (def *page-style*
 "
@@ -25,14 +29,18 @@
 }
 
 .exam {
-  width: 100%;
-  height: 24cm; /* B5 257*182mm */
+  /* B5 182*257mm */
+  width: 18cm;
+  height: 25cm;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 .exam td {
   width: 50%;
   font-size: 150%;
   vertical-align: top;
+  border: 1px solid #e3e3e3;
 }
 "
 )
@@ -52,30 +60,34 @@
          body])
   )
 
+(defn quiz-page
+  [title & quizzes]
+  (page title (apply interpose (newpage) quizzes)))
+
 (defn new-test-series
   []
-    (page "new-test (in series)"
-          (let [test-words (flatten (reverse (take pages-par-test *words*)))]
-            (for [page-words (partition-all words-par-page test-words)]
-              (place-words page-words)
-              ))))
+  (quiz-page "new-test (in series)"
+             (let [test-words (flatten (reverse (take pages-par-test *words*)))]
+               (for [page-words (partition-all words-par-page test-words)]
+                 (place-words page-words)
+                 ))))
 
 
 (defn new-test-random
   []
-    (page "new-test (in random)"
-          (let [test-words (shuffle (flatten (take pages-par-test *words*)))]
-            (for [page-words (partition-all words-par-page test-words)]
-              (place-words page-words)
-              ))))
+  (quiz-page "new-test (in random)"
+             (let [test-words (shuffle (flatten (take pages-par-test *words*)))]
+               (for [page-words (partition-all words-par-page test-words)]
+                 (place-words page-words)
+                 ))))
 
 (defn random-test
   []
-  (page "random-test"
-        (let [test-words (shuffle (take (* pages-par-test words-par-page) (flatten *words*)))]
-          (for [page-words (partition-all words-par-page test-words)]
-            (place-words page-words)
-            ))))
+  (quiz-page "random-test"
+             (let [test-words (shuffle (take (* pages-par-test words-par-page) (flatten *words*)))]
+               (for [page-words (partition-all words-par-page test-words)]
+                 (place-words page-words)
+                 ))))
 
 (defn index
   []
